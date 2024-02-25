@@ -71,6 +71,7 @@ impl Ring360 {
 
 }
 
+/// Implement + (addition) operator with two Ring30 values
 impl Add for Ring360 {
 
   type Output = Ring360;
@@ -81,6 +82,7 @@ impl Add for Ring360 {
   }
 }
 
+/// Implement - (subtraction) operator with two Ring30 values
 impl Sub for Ring360 {
 
   type Output = Ring360;
@@ -91,7 +93,7 @@ impl Sub for Ring360 {
   }
 }
 
-
+/// Implement * (multiplication) operator with two Ring30 values
 impl Mul for Ring360 {
 
   type Output = Ring360;
@@ -102,6 +104,7 @@ impl Mul for Ring360 {
   }
 }
 
+/// Implement / (division) operator with two Ring30 values
 impl Div for Ring360 {
 
   type Output = Ring360;
@@ -119,11 +122,14 @@ impl fmt::Display for Ring360 {
   }
 }
 
+/// trait to convert normal float values to a Ring360 value 
+/// and to apply a simple mod_360() returning a 64-bit float
 pub trait ToRing360 {
     fn to_360(&self) -> Ring360;
     fn mod_360(&self) -> Self;
 }
 
+/// Implement casting methods for f64
 impl ToRing360 for f64 {
     fn to_360(&self) -> Ring360 {
         Ring360(*self)
