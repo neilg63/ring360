@@ -42,12 +42,12 @@ println!(
   "{}º +  {}º equals {}º",
   longitude_1,
   longitude_2,
-  result_1_f64_
+  result_1_f64
 );
 
 ```
 
-Multiplication and divsion are implemented for degrees as Ring360 values, but in practice multiplying by float values is more useful
+Multiplication and divsion are implemented for degrees as Ring360 values, but in practice multiplying by float values is more useful.
 ```rust
 let value_1 = 74.7;
 let multiple = 4.0;
