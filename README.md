@@ -1,3 +1,7 @@
+[![mirror](https://img.shields.io/badge/mirror-github-blue)](https://github.com/neilg63/ring360)
+[![crates.io](https://img.shields.io/crates/v/ring360.svg)](https://crates.io/crates/ring360)
+[![docs.rs](https://docs.rs/ring360/badge.svg)](https://docs.rs/ring360)
+
 # Ring360: Modular Arithmetic around a 360º circle
 
 This crate provides a simple wrapper struct for 64-bit floats representing degrees around a circle. The type lets you perform basic arithmetic operations with +, -, * and / and calculate the shortest distances between two degrees on a circle.
