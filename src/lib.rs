@@ -34,6 +34,10 @@ impl Ring360 {
     self.0
   }
 
+	pub fn half_turn() -> f64 {
+		Self::BASE / 2.0
+	}
+
   /// Return a simple tuple pair with the 
   /// 360º degree value and the number of rotations (turns)
   pub fn as_tuple(&self) -> (f64, i64) {
@@ -54,16 +58,18 @@ impl Ring360 {
 
   /// Calculate the shortest distance in degrees between a Ring360 value
   /// and a float64 representing a degree
+	/// A positive value represents clockwise movement between the first and second longitude
   pub fn angle_f64(&self, other_value: f64) -> f64 {
-    let diff = other_value - self.to_f64();
-    if diff.abs() <= 180f64 {
+    let diff = (other_value % Self::BASE) - self.degree();
+    if diff.abs() <= Self::half_turn() {
       diff
     } else {
-      if diff < 0f64 {
-        0f64 - Self::BASE - diff
-      } else {
-        Self::BASE - diff
-      }
+      let alt_val = (Self::BASE + diff) % Self::BASE;
+			if alt_val < Self::half_turn() {
+				alt_val
+			} else {
+				alt_val - Self::BASE
+			}
     }
   }
 
@@ -102,6 +108,7 @@ impl Sub for Ring360 {
 pub trait ToRing360 {
 	fn to_360(&self) -> Ring360;
 	fn mod_360(&self) -> Self;
+  fn angle_360(&self, other_value: f64) -> Self;
 }
 
 /// Implement casting methods for f64
@@ -113,5 +120,10 @@ impl ToRing360 for f64 {
 	fn mod_360(&self) -> f64 {
 		Ring360(*self).to_f64()
 	}
+
+  fn angle_360(&self, other_value: f64) -> f64 {
+		Ring360(*self).angle_f64(other_value)
+	}
+
 }
 

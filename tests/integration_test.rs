@@ -54,7 +54,7 @@ fn test_angles() {
     let d1 = v1.to_360();
     let d2 = v2.to_360();
     
-    let expected_angle_d1_to_d2 = 0.0 - (v2 + Ring360::BASE - v1) % Ring360::BASE;
+    let expected_angle_d1_to_d2 = (v2 + Ring360::BASE - v1) % Ring360::BASE;
 
     assert_eq!(d1.angle(d2), expected_angle_d1_to_d2);
     assert_eq!(d1.angle_f64(v2), expected_angle_d1_to_d2);
@@ -68,7 +68,7 @@ fn test_angles() {
     let d3 = v3.to_360();
     let d4 = v4.to_360();
     let angle = d3.angle( d4 ); // will be the shortest angle
-    let target_val = 0.0 - (v4 + Ring360::BASE - v3) % Ring360::BASE;
+    let target_val = (v4 + Ring360::BASE - v3) % Ring360::BASE;
     assert_eq!(angle, target_val);
 
     let v5 = 322.393939;
@@ -77,6 +77,8 @@ fn test_angles() {
     let angle = d3.angle( d5 ); // will be the shortest angle
     let target_val = (v5 - v3) % Ring360::BASE;
     assert_eq!(angle, target_val);
+    // the same result can be obained from a normal f64 value via the angle_360() mmethod
+    assert_eq!(v3.angle_360(v5), target_val);
 }
 
 #[test]
