@@ -79,7 +79,7 @@ impl Ring360 {
   /// and a float64 representing a degree
 	/// A positive value represents clockwise movement between the first and second longitude
   pub fn angle_f64(&self, other_value: f64) -> f64 {
-    let diff = (other_value % Self::BASE) - self.degree();
+    let diff = (other_value % Self::BASE) - self.degrees();
     if diff.abs() <= Self::half_turn() {
       diff
     } else {

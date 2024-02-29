@@ -13,9 +13,14 @@ fn test_operations() {
     assert_eq!(d3.to_f64(), expected_result_f64);
 
     let d4 = d2 - d1;
-    let expected_result_f64 = (v2 - v1) % Ring360::BASE;
+    let expected_result_f64 = (Ring360::BASE + (v2 - v1)) % Ring360::BASE;
     assert_eq!(d4.to_f64(), expected_result_f64);
+}
 
+#[test]
+fn test_multiply() {
+    let v2 = 134.635893;
+    let d2 = Ring360(v2);
     let m1 = 4.0;
     let d5 = d2.multiply(m1);
     let expected_result_f64 = (v2 * m1) % Ring360::BASE;
