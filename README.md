@@ -60,8 +60,6 @@ let factor = 4.0;
 
 let result_1 = value_1.to_360().multiply(factor);
 
-let result_2 = value_1.to_360().divide(factor);
-
 println!(
   "{}º multiplied by {} equals {}º",
   value_1,
@@ -69,10 +67,13 @@ println!(
   result_1
 );
 
+let result_2 = value_1.to_360().divide(factor);
+
 println!(
   "{}º divided by {} equals {}",
-  result_2,
-  result_1
+  value_1,
+  factor,
+  result_2
 );
 
 ```
