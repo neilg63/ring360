@@ -1,8 +1,8 @@
 [package]
 name = "ring360"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
-description = "Simple wrapper type for 64-bit floats representing degrees around a circle. It supports basic arithmetic operations (+, -, * and /) and calculates the shortest distances between two degrees on a circle."
+description = "Simple wrapper type for 64-bit floats representing degrees around a circle. It supports basic arithmetic operations (+, -) and calculates the shortest distances between two degrees on a circle."
 repository = "https://github.com/neilg63/ring360"
 categories = ["mathematics"]
 license = "GPL-2.0-or-later WITH Bison-exception-2.2"
