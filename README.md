@@ -8,7 +8,7 @@ This crate provides a simple wrapper struct for 64-bit floats representing degre
 
 A *Ring360* type is just tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* and *1 rotation*.
 
-As this data type works on 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Degree longitudes around the Earth's circumference are offset by *180º*, but would follow the same logic if we added *180º*. However, in this case, the a longitude 0º would be 180º, while 0º would represet ±180º.
+As this data type works on 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Degree longitudes around the Earth's circumference are offset by *180º*, but would follow the same logic if we added *180º*. In this case, the a longitude 0º would be 180º, while 0º would represent a longitude of ±180º.
 
 ### Add and subtract degree values
 ```rust
