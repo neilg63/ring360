@@ -10,14 +10,33 @@ impl Ring360 {
   /// The base is 360.0. All degree values will be modulated by this number
   pub const BASE:f64 = 360.0;
 
-  /// Get the degree value as a 64-bit float
-  pub fn to_f64(&self) -> f64 {
-    self.0 % Self::BASE
+	/// Alternative constructor if the source degree uses the ±180º system
+	pub fn from_180(lng180: f64) -> Ring360 {
+    Ring360(lng180 + Self::half_turn())
   }
 
   /// Alias for the above
-  pub fn degree(&self) -> f64 {
-    self.0 % Self::BASE
+  pub fn degrees(&self) -> f64 {
+    let deg_val = self.0 % Self::BASE;
+		if deg_val < 0.0 { 
+			Self::BASE - (0.0 - deg_val)
+		} else {
+			deg_val
+		}
+  }
+
+	/// Same as degrees(), but is the default f64 conversion
+  pub fn to_f64(&self) -> f64 {
+    self.degrees()
+  }
+
+	#[deprecated(since="0.1.0", note="please use `degrees()` instead")]
+	pub fn degree(&self) -> f64 {
+    self.degrees()
+  }
+
+	pub fn to_180(&self) -> f64 {
+    self.degrees() - Self::half_turn()
   }
 
   /// Get the number of rotations. If the total is less than base of 360
