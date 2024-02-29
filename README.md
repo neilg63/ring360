@@ -6,8 +6,11 @@
 
 This crate provides a simple wrapper struct for 64-bit floats representing degrees around a circle. The type lets you perform basic arithmetic operations with +, - and calculate the shortest angles between two degrees on a circle. Multiplication and division are only supported with float-64 values.
 
+A *Ring360* object is just tuple struct encapsulating the raw the f64 value with methods to expose its *degree()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* and *1 rotation*.
+
+### Add and subtract degree values
 ```rust
-/// Add and.or subtract degrees on a circle
+/// Add and/or subtract degrees on a circle
 /// The degree value represents the longitude, while the intrinsic f64 value 
 /// represents the angle travelled around the circumference
 let longitude_1 = 74.7.to_360() // or Ring360(74.7);
@@ -29,14 +32,15 @@ println!("Degree value: {}º", result_2);
 
 ```
 
-64-bit float values can be easily coverted to and from Ring360 values
+### Convert from and to f64
 ```rust
 let value_1 = 74.7;
+let value_2 = 291.4;
+
 let longitude_1 = value_1.to_360();
+let longitude_2 = value_2.to_360();
 
-let longitude_2 = 291.4.to_360();
-
-let result_1_f64 = (longitude_1 + longitude_2).to_f64();
+let result_1_f64 = (longitude_1 + longitude_2).degree();
 
 println!(
   "{}º +  {}º equals {}º",

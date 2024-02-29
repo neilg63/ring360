@@ -62,7 +62,6 @@ fn test_angles() {
     let expected_angle_d2_to_d1 = 0f64 - expected_angle_d1_to_d2;
     assert_eq!(d2.angle(d1), expected_angle_d2_to_d1);
 
-
     let v3 = 324.449474;
     let v4 = 42.356418;
     let d3 = v3.to_360();
