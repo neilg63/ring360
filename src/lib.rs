@@ -10,9 +10,15 @@ impl Ring360 {
   /// The base is 360.0. All degree values will be modulated by this number
   pub const BASE:f64 = 360.0;
 
-	/// Alternative constructor if the source degree uses the ±180º system
-	pub fn from_180(lng180: f64) -> Ring360 {
+	/// Alternative constructor if the source degree uses the ±180º GIS system
+  pub fn from_gis(lng180: f64) -> Ring360 {
     Ring360(lng180 + Self::half_turn())
+  }
+
+	
+  #[deprecated(since="0.2.3", note="please use `from_gis()` instead")]
+	pub fn from_180(lng180: f64) -> Ring360 {
+    Self::from_gis(lng180)
   }
 
   /// Alias for the above
@@ -35,8 +41,14 @@ impl Ring360 {
     self.degrees()
   }
 
-	pub fn to_180(&self) -> f64 {
+	/// Convert the internal 0-360º scale back to the -180º to +180º GIS scale
+	pub fn to_gis(&self) -> f64 {
     self.degrees() - Self::half_turn()
+  }
+
+  #[deprecated(since="0.2.3", note="please use `to_gis()` instead")]
+	pub fn to_180(&self) -> f64 {
+    self.to_gis()
   }
 
   /// Get the number of rotations. If the total is less than base of 360
@@ -49,6 +61,8 @@ impl Ring360 {
     self.rotations()
   }
 
+	/// Returns the raw internal f64 value on a 0-360º scale. 
+	/// Values under 0 or over 360 represent negative or positive rotations
   pub fn value(&self) -> f64 {
     self.0
   }
@@ -126,6 +140,7 @@ impl Sub for Ring360 {
 /// and to apply a simple mod_360() returning a 64-bit float
 pub trait ToRing360 {
 	fn to_360(&self) -> Ring360;
+  fn to_360_gis(&self) -> Ring360;
 	fn mod_360(&self) -> Self;
   fn angle_360(&self, other_value: f64) -> Self;
 }
@@ -134,6 +149,10 @@ pub trait ToRing360 {
 impl ToRing360 for f64 {
 	fn to_360(&self) -> Ring360 {
 		Ring360(*self)
+	}
+
+  fn to_360_gis(&self) -> Ring360 {
+		Ring360::from_180(*self)
 	}
 
 	fn mod_360(&self) -> f64 {

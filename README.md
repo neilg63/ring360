@@ -105,7 +105,7 @@ This is implemented only for *f64* with the following methods:
 
 - *to_360(&self) -> Ring360* converts any float to Ring360 value;
 - *mod_360(&self) -> f64* A convenience method for *% 360.0*
-- *angle_360(&self, other_value: f64) -> f64*: Calculates th shortest angle between two f64 values as degrees around a circle.
+- *angle_360(&self, other_value: f64) -> f64*: Calculates the shortest angle between two f64 values as degrees around a circle.
 
 ### Dev Notes
 This is crate is in its alpha stage, but feature-complete.
