@@ -1,4 +1,5 @@
 use std::ops::{Add,Sub};
+use std::fmt;
 
 /// Ring360 is a tuple struct encapsulating an f64
 #[derive(Debug, Clone, Copy)]
@@ -12,7 +13,11 @@ impl Ring360 {
 
 	/// Alternative constructor if the source degree uses the ±180º GIS system
   pub fn from_gis(lng180: f64) -> Ring360 {
-    Ring360(lng180 + Self::half_turn())
+    if lng180 < 0.0 {
+			Ring360(Self::BASE + lng180)
+		} else {
+			Ring360(lng180)
+		}
   }
 
 	
@@ -43,7 +48,11 @@ impl Ring360 {
 
 	/// Convert the internal 0-360º scale back to the -180º to +180º GIS scale
 	pub fn to_gis(&self) -> f64 {
-    self.degrees() - Self::half_turn()
+    if self.degrees() <= Self::half_turn() {
+			self.degrees()
+		} else {
+			self.degrees() - Self::BASE
+		}
   }
 
   #[deprecated(since="0.2.3", note="please use `to_gis()` instead")]
@@ -136,6 +145,13 @@ impl Sub for Ring360 {
   }
 }
 
+impl fmt::Display for Ring360 {
+  /// By default display the circular degree value
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+      write!(f, "{}", self.degrees())
+  }
+}
+
 /// trait to convert normal float values to a Ring360 value 
 /// and to apply a simple mod_360() returning a 64-bit float
 pub trait ToRing360 {
@@ -152,7 +168,7 @@ impl ToRing360 for f64 {
 	}
 
   fn to_360_gis(&self) -> Ring360 {
-		Ring360::from_180(*self)
+		Ring360::from_gis(*self)
 	}
 
 	fn mod_360(&self) -> f64 {

@@ -109,3 +109,42 @@ fn test_multiplication() {
     assert_eq!(result_1, result_2);
 }
 
+#[test]
+fn test_rotations() {
+    let v1 = -82.467352;
+    let v2 = 432.202828;
+    
+    let d1 = v1.to_360();
+    let d2 = v2.to_360();
+    
+    let expected_rotations_1 = -1;
+    let expected_rotations_2 = 1;
+    assert_eq!(d1.rotations(), expected_rotations_1 );
+    assert_eq!(d2.rotations(), expected_rotations_2 );
+}
+
+#[test]
+fn test_gis_180_conversions() {
+    let v1 = -75.0;
+    let v1_360_system = 285.0;
+    
+    let d1 = v1.to_360_gis();
+    
+    
+    assert_eq!(d1.degrees(), v1_360_system );
+
+    assert_eq!(d1.to_gis(), v1 );
+
+    let v3 = -179.0;
+    let v4 = 179.0;
+
+    let d3 = v3.to_360_gis();
+    let d4 = v4.to_360_gis();
+
+    assert_eq!(d3.degrees(), 181.0 );
+
+    assert_eq!(d3.angle(d4), -2.0 );
+
+    assert_eq!((-120.0).to_360_gis().degrees(), 240.0 );
+    
+}

@@ -8,7 +8,7 @@ This crate provides a simple wrapper struct for 64-bit floats representing degre
 
 A *Ring360* type is just tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* and *1 rotation*.
 
-As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Degree longitudes around the Earth's circumference are offset by *180º*, but would follow the same logic if we added *180º*. In this case, the a longitude 0º would be 180º, while 0º would represent a longitude of ±180º.
+As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Degree longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º would be 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º on the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. 
 
 ### Add and subtract degree values
 ```rust
@@ -27,10 +27,28 @@ println!(
   result_1.value(),
   result_1.rotations()
 );
+/// Should read: Degrees: 132.19999999999993º, intrinsic value is 492.19999999999993, rotations: 1
 
 let result_2 = longitude_1 - longitude_2 + longitude_3;
 
 println!("Degree value: {}º", result_2);
+
+```
+
+### Use ±180 GIS system, -180º to 180º
+```rust
+/// Declare two degrees on the GIS scale
+let gis_lng_1 = 143.32;
+let gis_lng_2 = -111.4;
+
+/// Shift ±180 degrees to a 0º to 360º scale
+let lng_360_1 = gis_lng_1.to_360_gis(); // or Ring360::rom_gis(74.7);
+let lng_360_2 = gis_lng_2.to_360_gis();
+
+let angle_3 = lng_360_1.angle(lng_360_2);
+
+println!("The longitudinal distance between {} and {} is {}", lng_360_1.to_gis(), lng_360_2.to_gis(), angle_3);
+/// The longitudinal distance between 143.32 and -111.4 is 105.28
 
 ```
 
