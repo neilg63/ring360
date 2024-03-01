@@ -22,17 +22,17 @@ let longitude_3 = 126.1.to_360();
 let result_1 = longitude_1 + longitude_2 + longitude_3;
 
 println!(
-  "Degrees: {}º, intrinsic value is {}, rotations: {}",
-  result_1,
+  "Degrees: {:.1}º, intrinsic value is {:.1}, rotations: {}",
+  result_1.degrees(),
   result_1.value(),
   result_1.rotations()
 );
-/// Should read: Degrees: 132.19999999999993º, intrinsic value is 492.19999999999993, rotations: 1
+/// Should read: Degrees: 132.2º, intrinsic value is 492.2, rotations: 1
 
 let result_2 = longitude_1 - longitude_2 + longitude_3;
 
 println!("Degree value: {}º", result_2);
-
+/// Should read: Degree value: 269.4º
 ```
 
 ### Use ±180 GIS system, -180º to 180º
