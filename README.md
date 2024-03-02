@@ -4,11 +4,11 @@
 
 # Ring360: Modular Arithmetic around a 360º circle
 
-This crate provides a simple wrapper struct for 64-bit floats representing degrees around a 2D circle. The type lets you add and subtract with **+** and **-** operators as well as calculate the shortest angles between two degrees on a circle. Multiplication and division are only supported with primitive float-64 values.
+This crate provides a simple wrapper struct for 64-bit floats representing degrees around a 2D circle. The type lets you add and subtract with the **+** and **-** operators as well as calculate the shortest angles between two degrees. Multiplication and division only work with primitive float-64 values via the multiply() and divide() methods.
 
 A *Ring360* type is a simple tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* as a degree and *1 rotation*.
 
-As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. Please note that some Geographic Information Systems such QGIS use the 360º system and thus work with the standard *to_360()* and *degrees()* methods.
+As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. Please note that some Geographic Information Systems such [QGIS](https://qgis.org/en/site/) use the 360º system and thus work with the standard *to_360()* and *degrees()* methods.
 
 ### Add and subtract degree values
 ```rust
@@ -71,7 +71,8 @@ println!(
 
 ```
 
-Multiplication and divsion are not implemented directly for degrees as Ring360 values, but only with primitive f64 values via the multiply() and divide() methods.
+### Multiplication and divsion 
+These are not implemented directly for degrees as Ring360 values, but only with primitive f64 values via the multiply() and divide() methods.
 ```rust
 let value_1 = 74.7;
 let factor = 4.0;
@@ -116,35 +117,17 @@ println!(
 
 ```
 
-
-Calculate 
-```rust
-let value_1 = 297.4;
-let longitude_1 = value_1.to_360();
-let value_2: f64 = 36.2;
-let longitude_2 = value_2.to_360();
-
-let result_1 = value_1.angle(longitude_2);
-
-let result_2 = value_1.angle_f64(value_2);
-
-println!(
-  "Both results should be the same: {} == {}",
-  result_2,
-  result_1
-);
-```
-
 ### Calculate sine and cosine directly
 ```rust
 let value_1 = 45.0;
   let degree_1 = value_1.to_360();
 
 println!(
-  "The sine of {}º is {:.12}º",
+  "The sine of {}º is {:.12}",
   degree_1.degrees(),
   degree_1.sin()
 );
+// Should print: The sine of 45º is 0.707106781187
 
 let value_2 = 60.0;
 let degree_2 = value_2.to_360();
@@ -154,30 +137,30 @@ println!(
   degree_2.degrees(),
   degree_2.cos()
 );
+// Should print: The cosine of 60º is 0.5
 
 ```
 
 ### Instance Methods
 
-- degrees(&self) -> f64 Degree value from 0º to 360º.
-- to_f64(&self) -> f64 Alias for degrees() and the default display value
-- to_gis(&self) -> f64 Convert the internal 0-360º scale to the -180º to +180º GIS scale
-- rotations(&self) -> i64 Number of rotations required to reach the current raw value, e.g. 730.0 would require 2 rotations with a degree value of 10.0.
-- value(&self) -> f64 Raw f64 value
-- half_turn() Static method representig half of the 360º base, i.e. 180.0
-- as_tuple(&self) -> (f64, i64) Return a tuple with degrees as f64 and rotations as i64
-- multiply(mut self, multiple: f64) -> Self Multiply a Ring360 value by a normal f64 value
-- divide(mut self, divisor: f64) -> Self Divide a Ring360 by a normal f64 value
-- *angle_f64(&self, other_value: f64) -> f64* Calculate the shortest distance in degrees between a Ring360 value and a 64-bit float representing a degree.
-- A positive value represents clockwise movement between the first and second longitude 
-- angle(&self, other_value: Ring360) -> f64 Angular distance between to Ring360 values
-- to_radians(&self) -> f64 convert to radians for interoperability
-- sin(&self) -> f64 sine (with implicit radian conversion, e.g. 30.to_360().sin() yields 0.5)
-- cos(&self) -> f64 cosine
-- tan(&self) -> f64 tangent
-- asin(&self) -> f64 inverse sine 
-- acos(&self) -> f64  inverse cosine
-- atan(&self) -> f64 inverse tangent
+- *degrees()-> f64*  Degree value from 0º to 360º.
+- *to_f64() -> f64* Alias for degrees() and the default display value
+- *to_gis() -> f64* Convert the internal 0-360º scale to the -180º to +180º GIS scale
+- *rotations() -> i64* Number of rotations required to reach the current raw value, e.g. 730.0 would require 2 rotations with a degree value of 10.0.
+- *value(&self) -> f64* Raw f64 value
+- *half_turn() -> f64* Static method representig half of the 360º base, i.e. 180.0
+- *as_tuple() -> (f64, i64)* Return a tuple with degrees as f64 and rotations as i64
+- *multiply(multiple: f64) -> Self* Multiply a Ring360 value by a normal f64 value
+- *divide(divisor: f64) -> Self* Divide a Ring360 by a normal f64 value
+- *angle_f64(other_value: f64) -> f64* Calculate the shortest distance in degrees between a Ring360 value and a 64-bit float representing a degree. A positive value represents clockwise movement between the first and second longitude 
+- *angle(other_value: Ring360) -> f64* Angular distance between to Ring360 values
+- *to_radians() -> f64* convert to radians for interoperability
+- *sin() -> f64* sine (with implicit radian conversion, e.g. 30.to_360().sin() yields 0.5)
+- *cos() -> f64* cosine
+- *tan() -> f64* tangent
+- *asin() -> f64* inverse sine 
+- *acos() -> f64*  inverse cosine
+- *atan() -> f64* inverse tangent
 
 ## Traits
 
