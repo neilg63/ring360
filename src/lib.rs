@@ -111,6 +111,41 @@ impl Ring360 {
     self.angle_f64(other_value.to_f64())
   }
 
+	/// Convert to radians for use with cos(), sin(), tan(), atan() etc.
+  pub fn to_radians(&self) -> f64 {
+    self.degrees().to_radians()
+  }
+
+	/// Calculate sine in the 360º system without explicity converting to radians
+  pub fn sin(&self) -> f64 {
+    self.to_radians().sin()
+  }
+
+	/// Calculate cosine in the 360º system without explicity converting to radians
+  pub fn cos(&self) -> f64 {
+    self.to_radians().cos()
+  }
+
+	/// Calculate tangent in the 360º system without explicity converting to radians
+  pub fn tan(&self) -> f64 {
+    self.to_radians().tan()
+  }
+
+	/// Calculate inverse cosine in the 360º system without explicity converting to and from radians
+  pub fn asin(&self) -> f64 {
+    self.to_radians().asin()
+  }
+
+	/// Calculate inverse cosine in the 360º system without explicity converting to and from radians
+  pub fn acos(&self) -> f64 {
+    self.to_radians().acos()
+  }
+
+	/// Calculate inverse tangent (arctan, aatan) in the 360º system without explicity converting to radians
+  pub fn atan(&self) -> f64 {
+    self.to_radians().atan()
+  }
+
 }
 
 /// Implement + (addition) operator with two Ring30 values

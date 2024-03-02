@@ -160,3 +160,17 @@ fn test_mod_360() {
     assert_eq!(negative_lng.mod_360(), expected_360_lng);
     
 }
+
+#[test]
+fn test_to_radians() {
+    
+    let deg_val = 77.2483;
+    let lng = deg_val.to_360();
+    let radian_val = deg_val / 180.0 * std::f64::consts::PI;
+
+    assert_eq!(lng.to_radians(), radian_val);
+
+    assert_eq!(lng.cos(), radian_val.cos());
+    
+}
+

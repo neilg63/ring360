@@ -4,7 +4,7 @@
 
 # Ring360: Modular Arithmetic around a 360º circle
 
-This crate provides a simple wrapper struct for 64-bit floats representing degrees around a circle. The type lets you add and subtract with **+** and **-** operators as well as calculate the shortest angles between two degrees on a circle. Multiplication and division are only supported with primitive float-64 values.
+This crate provides a simple wrapper struct for 64-bit floats representing degrees around a 2D circle. The type lets you add and subtract with **+** and **-** operators as well as calculate the shortest angles between two degrees on a circle. Multiplication and division are only supported with primitive float-64 values.
 
 A *Ring360* type is a simple tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* as a degree and *1 rotation*.
 
@@ -96,6 +96,7 @@ println!(
 
 ```
 
+### Calculate Angular Distance
 The *angle()* and *angle_f64()* methods calculate the shortest angle in degrees between two longitudes in a circle. Negative values indicate an anticlockwise offset from A to B, e.g. from 340º to 320º would be negative, while 350º to 10º would be positive.
 ```rust
 let value_1 = 297.4;
@@ -115,6 +116,69 @@ println!(
 
 ```
 
+
+Calculate 
+```rust
+let value_1 = 297.4;
+let longitude_1 = value_1.to_360();
+let value_2: f64 = 36.2;
+let longitude_2 = value_2.to_360();
+
+let result_1 = value_1.angle(longitude_2);
+
+let result_2 = value_1.angle_f64(value_2);
+
+println!(
+  "Both results should be the same: {} == {}",
+  result_2,
+  result_1
+);
+```
+
+### Calculate sine and cosine directly
+```rust
+let value_1 = 45.0;
+  let degree_1 = value_1.to_360();
+
+println!(
+  "The sine of {}º is {:.12}º",
+  degree_1.degrees(),
+  degree_1.sin()
+);
+
+let value_2 = 60.0;
+let degree_2 = value_2.to_360();
+
+println!(
+  "The cosine of {}º is {:.1}",
+  degree_2.degrees(),
+  degree_2.cos()
+);
+
+```
+
+### Instance Methods
+
+- degrees(&self) -> f64 Degree value from 0º to 360º.
+- to_f64(&self) -> f64 Alias for degrees() and the default display value
+- to_gis(&self) -> f64 Convert the internal 0-360º scale to the -180º to +180º GIS scale
+- rotations(&self) -> i64 Number of rotations required to reach the current raw value, e.g. 730.0 would require 2 rotations with a degree value of 10.0.
+- value(&self) -> f64 Raw f64 value
+- half_turn() Static method representig half of the 360º base, i.e. 180.0
+- as_tuple(&self) -> (f64, i64) Return a tuple with degrees as f64 and rotations as i64
+- multiply(mut self, multiple: f64) -> Self Multiply a Ring360 value by a normal f64 value
+- divide(mut self, divisor: f64) -> Self Divide a Ring360 by a normal f64 value
+- *angle_f64(&self, other_value: f64) -> f64* Calculate the shortest distance in degrees between a Ring360 value and a 64-bit float representing a degree.
+- A positive value represents clockwise movement between the first and second longitude 
+- angle(&self, other_value: Ring360) -> f64 Angular distance between to Ring360 values
+- to_radians(&self) -> f64 convert to radians for interoperability
+- sin(&self) -> f64 sine (with implicit radian conversion, e.g. 30.to_360().sin() yields 0.5)
+- cos(&self) -> f64 cosine
+- tan(&self) -> f64 tangent
+- asin(&self) -> f64 inverse sine 
+- acos(&self) -> f64  inverse cosine
+- atan(&self) -> f64 inverse tangent
+
 ## Traits
 
 ### ToRing360
@@ -129,6 +193,23 @@ This is implemented only for *f64* with the following methods:
 ### Dev Notes
 This is crate is in its alpha stage, but feature-complete. 
 
+
+### Version notes
+#### 0.2.6
+The following methods have been added to Ring360
+- to_radians(&self) for interoperability with other maths functions
+
+The core trigonometric methods, sin(), cos(), tan(), asin(), acos() and atan() are calculated from degrees without explicitly converting to radians first:
+- sin(&self) calculates sine 
+- cos(&self) calculates cosine 
+- tan(&self) calculates tangent
+- asin(&self) calculates inverse sine (arcsine, asin)
+- acos(&self) calculates inverse cosine (arccoine, acos)
+- atan(&self) calculates inverse tangent (arctan, atan)
+
+
+#### 0.2.5
 The following deprecated methods were removed from version 0.2.5:
-- *degree() * => use *degrees()* instead.
+- *degree()* => use *degrees()* instead.
 - *turns()* => use *rotations()* instead.
+

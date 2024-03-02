@@ -1,6 +1,6 @@
 [package]
 name = "ring360"
-version = "0.2.5"
+version = "0.2.6"
 edition = "2021"
 description = "Simple wrapper type for 64-bit floats representing degrees around a circle. It supports basic arithmetic operations (+, -) and calculates the shortest angles between two degrees on a circle."
 repository = "https://github.com/neilg63/ring360"
