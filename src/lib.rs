@@ -41,11 +41,6 @@ impl Ring360 {
     self.degrees()
   }
 
-	#[deprecated(since="0.1.0", note="please use `degrees()` instead")]
-	pub fn degree(&self) -> f64 {
-    self.degrees()
-  }
-
 	/// Convert the internal 0-360º scale back to the -180º to +180º GIS scale
 	pub fn to_gis(&self) -> f64 {
     if self.degrees() <= Self::half_turn() {
@@ -63,11 +58,6 @@ impl Ring360 {
   /// Get the number of rotations. If the total is less than base of 360
   pub fn rotations(&self) -> i64 {
     (self.0 / Self::BASE).floor() as i64
-  }
-
-  #[deprecated(since="0.1.0", note="please use `rotations()` instead")]
-  pub fn turns(&self) -> i64 {
-    self.rotations()
   }
 
 	/// Returns the raw internal f64 value on a 0-360º scale. 

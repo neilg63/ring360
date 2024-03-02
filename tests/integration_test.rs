@@ -146,5 +146,17 @@ fn test_gis_180_conversions() {
     assert_eq!(d3.angle(d4), -2.0 );
 
     assert_eq!((-120.0).to_360_gis().degrees(), 240.0 );
+
+    assert_eq!((-179.0).to_360_gis().degrees(), 181.0 );
+    
+}
+
+#[test]
+fn test_mod_360() {
+    
+    let negative_lng = -31.5;
+    let expected_360_lng = 328.5;
+
+    assert_eq!(negative_lng.mod_360(), expected_360_lng);
     
 }

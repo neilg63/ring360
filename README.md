@@ -8,7 +8,7 @@ This crate provides a simple wrapper struct for 64-bit floats representing degre
 
 A *Ring360* type is a simple tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* as a degree and *1 rotation*.
 
-As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. 
+As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. Please note that some Geographic Information Systems such QGIS use the 360º system and thus work with the standard *to_360()* degrees() methods.
 
 ### Add and subtract degree values
 ```rust
@@ -123,8 +123,12 @@ This is implemented only for *f64* with the following methods:
 
 - *to_360(&self) -> Ring360* converts any 64-bit float representing a degree in tne 360º system to Ring360 value;
 - *to_360_gis(&self) -> Ring360* converts any 64-bit float representing a degree in tne ±180º system and normalises on the 0-360º scale.
-- *mod_360(&self) -> f64* A convenience method for *% 360.0*
+- *mod_360(&self) -> f64* A convenience method for *% 360.0*, but treating negative values as positive degrees in reverse, e.g. *(-20.0).mod_360* equals *340º*
 - *angle_360(&self, other_value: f64) -> f64*: Calculates the shortest angle between two f64 values as degrees around a circle.
 
 ### Dev Notes
-This is crate is in its alpha stage, but feature-complete.
+This is crate is in its alpha stage, but feature-complete. 
+
+The following deprecated methods were removed from version 0.2.5:
+- *degree() * => use *degrees()* instead.
+- *turns()* => use *rotations()* instead.
