@@ -8,7 +8,7 @@ This crate provides a simple wrapper struct for 64-bit floats representing degre
 
 A *Ring360* type is a simple tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* as a degree and *1 rotation*.
 
-As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. Please note that some Geographic Information Systems such QGIS use the 360º system and thus work with the standard *to_360()* degrees() methods.
+As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. Please note that some Geographic Information Systems such QGIS use the 360º system and thus work with the standard *to_360()* and *degrees()* methods.
 
 ### Add and subtract degree values
 ```rust
