@@ -4,11 +4,11 @@
 
 # Ring360: Modular Arithmetic around a 360º circle
 
-This crate provides a simple wrapper struct for 64-bit floats representing degrees around a circle. The type lets you perform basic arithmetic operations with +, - and calculate the shortest angles between two degrees on a circle. Multiplication and division are only supported with float-64 values.
+This crate provides a simple wrapper struct for 64-bit floats representing degrees around a circle. The type lets you add and subtract with **+** and **-** operators as well as calculate the shortest angles between two degrees on a circle. Multiplication and division are only supported with primitive float-64 values.
 
 A *Ring360* type is a simple tuple struct encapsulating the raw the f64 value with methods to expose its *degrees()*, *rotations()* or raw value(), e.g. Ring360(400.0) would have a raw value of *400.0* but *40º* as a degree and *1 rotation*.
 
-As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Degree longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º would be 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º on the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. 
+As this data type works around a 360º circle, negative raw values yield positive degrees in the opposite direction, e.g. *-60* is *300º* . Longitudes around the Earth's circumference are customarily expressed as ±180º. In this case, longitudes between 0º and 180º are the same but between 180º and 360º, they descend from -180º to º0. This means -120º in the ±180 system is 240º in the 360º system. To this end, the crate has methods to convert from and to the GIS ±180 system, i.e. *value_f64.to_360_gis()* or *Ring360_from_gis(lng180: f64)*. 
 
 ### Add and subtract degree values
 ```rust
@@ -71,7 +71,7 @@ println!(
 
 ```
 
-Multiplication and divsion are not implemented directly for degrees as Ring360 values, but only with normal f64 values via the multiply() and divide() methods.
+Multiplication and divsion are not implemented directly for degrees as Ring360 values, but only with primitive f64 values via the multiply() and divide() methods.
 ```rust
 let value_1 = 74.7;
 let factor = 4.0;
@@ -96,7 +96,7 @@ println!(
 
 ```
 
-The *angle()* and *angle_f64()* methods calculate the shortest angle in degrees between two longitudes in a circle. Negative value indicate an anticlockwise offset from A to B, e.g. from 340º to 320º would be negative, while 350º to 10º would be positive.
+The *angle()* and *angle_f64()* methods calculate the shortest angle in degrees between two longitudes in a circle. Negative values indicate an anticlockwise offset from A to B, e.g. from 340º to 320º would be negative, while 350º to 10º would be positive.
 ```rust
 let value_1 = 297.4;
 let longitude_1 = value_1.to_360();
