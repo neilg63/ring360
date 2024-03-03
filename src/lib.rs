@@ -173,7 +173,7 @@ impl Sub for Ring360 {
 impl fmt::Display for Ring360 {
   /// By default display the circular degree value
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-      write!(f, "{}", self.degrees())
+    write!(f, "{}", self.degrees())
   }
 }
 
