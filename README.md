@@ -71,7 +71,7 @@ println!(
 
 ```
 
-### Multiplication and divsion 
+### Multiplication and Division 
 These are not implemented directly for degrees as Ring360 values, but only with primitive f64 values via the multiply() and divide() methods.
 ```rust
 let value_1 = 74.7;
@@ -97,7 +97,7 @@ println!(
 
 ```
 
-### Calculate Angular Distance
+### Angular Distance
 The *angle()* and *angle_f64()* methods calculate the shortest angle in degrees between two longitudes in a circle. Negative values indicate an anticlockwise offset from A to B, e.g. from 340º to 320º would be negative, while 350º to 10º would be positive.
 ```rust
 let value_1 = 297.4;
@@ -117,7 +117,7 @@ println!(
 
 ```
 
-### Calculate sine and cosine directly
+### Calculate sine, cosine and tangent directly
 ```rust
 let value_1 = 45.0;
   let degree_1 = value_1.to_360();
