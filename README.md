@@ -147,8 +147,7 @@ println!(
 - *to_f64() -> f64* Alias for degrees() and the default display value
 - *to_gis() -> f64* Convert the internal 0-360º scale to the -180º to +180º GIS scale
 - *rotations() -> i64* Number of rotations required to reach the current raw value, e.g. 730.0 would require 2 rotations with a degree value of 10.0.
-- *value(&self) -> f64* Raw f64 value
-- *half_turn() -> f64* Static method representig half of the 360º base, i.e. 180.0
+- *value() -> f64* Raw f64 value
 - *as_tuple() -> (f64, i64)* Return a tuple with degrees as f64 and rotations as i64
 - *multiply(multiple: f64) -> Self* Multiply a Ring360 value by a normal f64 value
 - *divide(divisor: f64) -> Self* Divide a Ring360 by a normal f64 value
@@ -161,6 +160,12 @@ println!(
 - *asin() -> f64* inverse sine 
 - *acos() -> f64*  inverse cosine
 - *atan() -> f64* inverse tangent
+
+#### Static methods
+- *half_turn() -> f64* Half of the 360º base, i.e. 180.0
+
+#### Constants
+- *BASE:f64 = 360.0*
 
 ## Traits
 
