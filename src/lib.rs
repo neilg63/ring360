@@ -26,7 +26,8 @@ impl Ring360 {
     Self::from_gis(lng180)
   }
 
-  /// Alias for the above
+  /// Degrees as 64-bit floats on the 0º to 360º scale around a circle
+  /// Use value() for the intrinsic value that may extend beyond this range
   pub fn degrees(&self) -> f64 {
     let deg_val = self.0 % Self::BASE;
 		if deg_val < 0.0 { 
@@ -58,6 +59,12 @@ impl Ring360 {
   /// Get the number of rotations. If the total is less than base of 360
   pub fn rotations(&self) -> i64 {
     (self.0 / Self::BASE).floor() as i64
+  }
+
+  /// Get the intrinsic raw value as a decimal fraction of rotations
+  /// e.g. 180.0 translates to 0.5 and 450.0 to 1.25
+  pub fn progress(&self) -> f64 {
+    self.0 / Self::BASE
   }
 
 	/// Returns the raw internal f64 value on a 0-360º scale. 

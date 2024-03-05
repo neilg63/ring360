@@ -124,6 +124,20 @@ fn test_rotations() {
 }
 
 #[test]
+fn test_progress() {
+    let v1 = -270.0;
+    let v2 = 540.0;
+    
+    let d1 = v1.to_360();
+    let d2 = v2.to_360();
+    
+    let expected_progress_1 = -0.75;
+    let expected_progress_2 = 1.5;
+    assert_eq!(d1.progress(), expected_progress_1 );
+    assert_eq!(d2.progress(), expected_progress_2 );
+}
+
+#[test]
 fn test_gis_180_conversions() {
     let v1 = -75.0;
     let v1_360_system = 285.0;

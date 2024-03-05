@@ -147,6 +147,7 @@ println!(
 - *to_f64() -> f64* Alias for degrees() and the default display value
 - *to_gis() -> f64* Convert the internal 0-360º scale to the -180º to +180º GIS scale
 - *rotations() -> i64* Number of rotations required to reach the current raw value, e.g. 730.0 would require 2 rotations with a degree value of 10.0.
+- *progress() -> f64* the instrinsic value expressed as decimal fractions of progress around a circle, i.e. 180º translates to 0.5 and 450º to 1.25
 - *value() -> f64* Raw f64 value
 - *as_tuple() -> (f64, i64)* Return a tuple with degrees as f64 and rotations as i64
 - *multiply(multiple: f64) -> Self* Multiply a Ring360 value by a normal f64 value
@@ -179,22 +180,24 @@ This is implemented only for *f64* with the following methods:
 - *angle_360(&self, other_value: f64) -> f64*: Calculates the shortest angle between two f64 values as degrees around a circle.
 
 ### Dev Notes
-This is crate is in its alpha stage, but feature-complete. 
+This is crate is in development, but implements all core features. 
 
 
 ### Version notes
+#### 0.2.8
+- *progress() -> f64* Returns the rotations as decimal progress around a circle
+
 #### 0.2.6
 The following methods have been added to Ring360
 - to_radians(&self) for interoperability with other maths functions
 
 The core trigonometric methods, sin(), cos(), tan(), asin(), acos() and atan() are calculated from degrees without explicitly converting to radians first:
-- sin(&self) calculates sine 
-- cos(&self) calculates cosine 
-- tan(&self) calculates tangent
-- asin(&self) calculates inverse sine (arcsine, asin)
-- acos(&self) calculates inverse cosine (arccoine, acos)
-- atan(&self) calculates inverse tangent (arctan, atan)
-
+- *.sin() -> f64* calculates sine 
+- *.cos() -> f64* calculates cosine 
+- *.tan() -> f64* calculates tangent
+- *.asin() -> f64* calculates inverse sine (arcsine, asin)
+- *.acos() -> f64* calculates inverse cosine (arccoine, acos)
+- *.atan() -> f64* calculates inverse tangent (arctan, atan)
 
 #### 0.2.5
 The following deprecated methods were removed from version 0.2.5:
