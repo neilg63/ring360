@@ -174,10 +174,10 @@ println!(
 
 This is implemented only for *f64* with the following methods:
 
-- *to_360(&self) -> Ring360* converts any 64-bit float representing a degree in tne 360º system to Ring360 value;
-- *to_360_gis(&self) -> Ring360* converts any 64-bit float representing a degree in tne ±180º system and normalises on the 0-360º scale.
-- *mod_360(&self) -> f64* A convenience method for *% 360.0*, but treating negative values as positive degrees in reverse, e.g. *(-20.0).mod_360* equals *340º*
-- *angle_360(&self, other_value: f64) -> f64*: Calculates the shortest angle between two f64 values as degrees around a circle.
+- *to_360() -> Ring360* converts any 64-bit float representing a degree in tne 360º system to Ring360 value;
+- *to_360_gis() -> Ring360* converts any 64-bit float representing a degree in tne ±180º system and normalises on the 0-360º scale.
+- *mod_360() -> f64* A convenience method for *% 360.0*, but treating negative values as positive degrees in reverse, e.g. *(-20.0).mod_360* equals *340º*
+- *angle_360(other_value: f64) -> f64*: Calculates the shortest angle between two f64 values as degrees around a circle.
 
 ### Dev Notes
 This is crate is in development, but implements all core features. 
@@ -189,7 +189,7 @@ This is crate is in development, but implements all core features.
 
 #### 0.2.6
 The following methods have been added to Ring360
-- to_radians(&self) for interoperability with other maths functions
+- to_radians() for interoperability with other maths functions
 
 The core trigonometric methods, sin(), cos(), tan(), asin(), acos() and atan() are calculated from degrees without explicitly converting to radians first:
 - *.sin() -> f64* calculates sine 

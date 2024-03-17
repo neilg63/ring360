@@ -14,10 +14,10 @@ impl Ring360 {
 	/// Alternative constructor if the source degree uses the ±180º GIS system
   pub fn from_gis(lng180: f64) -> Ring360 {
     if lng180 < 0.0 {
-			Ring360(Self::BASE + lng180)
-		} else {
-			Ring360(lng180)
-		}
+      Ring360(Self::BASE + lng180)
+    } else {
+      Ring360(lng180)
+    }
   }
 
 	
@@ -30,11 +30,11 @@ impl Ring360 {
   /// Use value() for the intrinsic value that may extend beyond this range
   pub fn degrees(&self) -> f64 {
     let deg_val = self.0 % Self::BASE;
-		if deg_val < 0.0 { 
-			Self::BASE - (0.0 - deg_val)
-		} else {
-			deg_val
-		}
+    if deg_val < 0.0 { 
+      Self::BASE - (0.0 - deg_val)
+    } else {
+      deg_val
+    }
   }
 
 	/// Same as degrees(), but is the default f64 conversion
@@ -45,10 +45,10 @@ impl Ring360 {
 	/// Convert the internal 0-360º scale back to the -180º to +180º GIS scale
 	pub fn to_gis(&self) -> f64 {
     if self.degrees() <= Self::half_turn() {
-			self.degrees()
-		} else {
-			self.degrees() - Self::BASE
-		}
+      self.degrees()
+    } else {
+      self.degrees() - Self::BASE
+    }
   }
 
   #[deprecated(since="0.2.3", note="please use `to_gis()` instead")]
@@ -74,13 +74,13 @@ impl Ring360 {
   }
 
 	pub fn half_turn() -> f64 {
-		Self::BASE / 2.0
+    Self::BASE / 2.0
 	}
 
   /// Return a simple tuple pair with the 
   /// 360º degree value and the number of rotations (turns)
   pub fn as_tuple(&self) -> (f64, i64) {
-    (self.to_f64(), self.rotations())
+    (self.degrees(), self.rotations())
   }
 
   /// Multiply a Ring360 value by a normal f64 value
@@ -100,22 +100,21 @@ impl Ring360 {
 	/// A positive value represents clockwise movement between the first and second longitude
   pub fn angle_f64(&self, other_value: f64) -> f64 {
     let diff = (other_value % Self::BASE) - self.degrees();
+    let alt_val = (Self::BASE + diff) % Self::BASE;
+    
     if diff.abs() <= Self::half_turn() {
-      diff
+        diff
+    } else if alt_val < Self::half_turn() {
+        alt_val
     } else {
-      let alt_val = (Self::BASE + diff) % Self::BASE;
-			if alt_val < Self::half_turn() {
-				alt_val
-			} else {
-				alt_val - Self::BASE
-			}
+        alt_val - Self::BASE
     }
   }
 
   /// Calculate the shortest distance in degrees between 
   /// two a Ring360 values
   pub fn angle(&self, other_value: Ring360) -> f64 {
-    self.angle_f64(other_value.to_f64())
+    self.angle_f64(other_value.degrees())
   }
 
 	/// Convert to radians for use with cos(), sin(), tan(), atan() etc.
@@ -160,6 +159,7 @@ impl Add for Ring360 {
 
   type Output = Ring360;
 
+  /// Implement + for Ring360
   fn add(mut self, other: Ring360) -> Self {
     self.0 += other.value();
     self
@@ -171,6 +171,7 @@ impl Sub for Ring360 {
 
   type Output = Ring360;
 
+  /// Implement - for Ring360
   fn sub(mut self, other: Ring360) -> Self {
     self.0 -= other.value();
     self
@@ -195,21 +196,25 @@ pub trait ToRing360 {
 
 /// Implement casting methods for f64
 impl ToRing360 for f64 {
+
+  /// Convert to a Ring360 struct
 	fn to_360(&self) -> Ring360 {
-		Ring360(*self)
+    Ring360(*self)
 	}
 
+  /// Convert to GIS ±180 representation
   fn to_360_gis(&self) -> Ring360 {
-		Ring360::from_gis(*self)
+    Ring360::from_gis(*self)
 	}
 
+  /// Convert a 64-bit float directly to the 0 to 360º system
 	fn mod_360(&self) -> f64 {
-		Ring360(*self).to_f64()
+    Ring360(*self).degrees()
 	}
 
+  /// Calculate the angle with another 64-bit float in the 0 to 360º system
   fn angle_360(&self, other_value: f64) -> f64 {
-		Ring360(*self).angle_f64(other_value)
+    Ring360(*self).angle_f64(other_value)
 	}
 
 }
-
