@@ -75,7 +75,7 @@ impl Ring360 {
 
 	pub fn half_turn() -> f64 {
     Self::BASE / 2.0
-	}
+  }
 
   /// Return a simple tuple pair with the 
   /// 360º degree value and the number of rotations (turns)
@@ -200,21 +200,21 @@ impl ToRing360 for f64 {
   /// Convert to a Ring360 struct
 	fn to_360(&self) -> Ring360 {
     Ring360(*self)
-	}
+  }
 
   /// Convert to GIS ±180 representation
   fn to_360_gis(&self) -> Ring360 {
     Ring360::from_gis(*self)
-	}
+  }
 
   /// Convert a 64-bit float directly to the 0 to 360º system
 	fn mod_360(&self) -> f64 {
     Ring360(*self).degrees()
-	}
+  }
 
   /// Calculate the angle with another 64-bit float in the 0 to 360º system
   fn angle_360(&self, other_value: f64) -> f64 {
     Ring360(*self).angle_f64(other_value)
-	}
+  }
 
 }
