@@ -12,18 +12,14 @@ impl Ring360 {
   pub const BASE:f64 = 360.0;
 
 	/// Alternative constructor if the source degree uses the ±180º GIS system
+  /// This will not affect the degree conversion, but only the initial rotations
+  /// value, e.g. (-20).
   pub fn from_gis(lng180: f64) -> Ring360 {
     if lng180 < 0.0 {
       Ring360(Self::BASE + lng180)
     } else {
       Ring360(lng180)
     }
-  }
-
-	
-  #[deprecated(since="0.2.3", note="please use `from_gis()` instead")]
-	pub fn from_180(lng180: f64) -> Ring360 {
-    Self::from_gis(lng180)
   }
 
   /// Degrees as 64-bit floats on the 0º to 360º scale around a circle
@@ -37,7 +33,7 @@ impl Ring360 {
     }
   }
 
-	/// Same as degrees(), but is the default f64 conversion
+	/// Alias for for .degrees(), but is the default f64 conversion
   pub fn to_f64(&self) -> f64 {
     self.degrees()
   }
@@ -49,11 +45,6 @@ impl Ring360 {
     } else {
       self.degrees() - Self::BASE
     }
-  }
-
-  #[deprecated(since="0.2.3", note="please use `to_gis()` instead")]
-	pub fn to_180(&self) -> f64 {
-    self.to_gis()
   }
 
   /// Get the number of rotations. If the total is less than base of 360
@@ -178,6 +169,7 @@ impl Sub for Ring360 {
   }
 }
 
+/// Implement default display for Ring360 as the degree value
 impl fmt::Display for Ring360 {
   /// By default display the circular degree value
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -165,6 +165,23 @@ fn test_gis_180_conversions() {
     
 }
 
+// Ensure both constructors yield the same degree value, but have different initial numbers of rotations
+#[test]
+fn test_from_gis_constructor() {
+    
+    let gis_180_value = -90.0;
+
+    let expected_360_value = 270.0;
+    let value_with_default_constructor = Ring360(gis_180_value);
+    let value_with_gis_constructor = Ring360::from_gis(gis_180_value);
+
+    assert_eq!(value_with_default_constructor.degrees(), expected_360_value);
+    assert_eq!(value_with_gis_constructor.degrees(), expected_360_value);
+
+    assert_eq!(value_with_default_constructor.rotations(), -1);
+    assert_eq!(value_with_gis_constructor.rotations(), 0);
+}
+
 #[test]
 fn test_mod_360() {
     
@@ -172,7 +189,6 @@ fn test_mod_360() {
     let expected_360_lng = 328.5;
 
     assert_eq!(negative_lng.mod_360(), expected_360_lng);
-    
 }
 
 #[test]
