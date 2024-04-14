@@ -86,6 +86,16 @@ fn test_angles() {
 }
 
 #[test]
+fn test_absolute_angles() {
+    let v1 = 271.5;
+    let v2 = 24.5;
+    let v1_to_v2_absolute_angle = 113.0;
+    let v2_to_v1_absolute_angle = 247.0;
+    assert_eq!(v1.angle_360_abs(v2), v1_to_v2_absolute_angle);
+    assert_eq!(v2.angle_360_abs(v1), v2_to_v1_absolute_angle);
+}
+
+#[test]
 fn test_multiplication() {
     let v1 = 271.893635;
     let v2 = 4.0;

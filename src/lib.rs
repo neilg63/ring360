@@ -102,11 +102,27 @@ impl Ring360 {
     }
   }
 
+  /// Calculate the absolute angle with another 64-bit float in the 0 to 360º system
+  /// only in a clockwise direction with the 180º to 359.999º representing half to a full turn
+  pub fn angle_f64_abs(&self, other_value: f64) -> f64 {
+   let relative_value = self.angle_f64(other_value);
+   if relative_value < 0.0 {
+    Self::BASE + relative_value
+   } else {
+    relative_value
+   }
+  }
+
   /// Calculate the shortest distance in degrees between 
   /// two a Ring360 values
   pub fn angle(&self, other_value: Ring360) -> f64 {
     self.angle_f64(other_value.degrees())
   }
+  /// Calculate the absolute angle with another Ring360 degree
+  /// only in a clockwise direction with the 180º to 359.999º representing half to a full turn
+  pub fn angle_abs(&self, other_value: Ring360) -> f64 {
+    self.angle_f64_abs(other_value.degrees())
+   }
 
 	/// Convert to radians for use with cos(), sin(), tan(), atan() etc.
   pub fn to_radians(&self) -> f64 {
@@ -184,6 +200,7 @@ pub trait ToRing360 {
   fn to_360_gis(&self) -> Ring360;
 	fn mod_360(&self) -> Self;
   fn angle_360(&self, other_value: f64) -> Self;
+  fn angle_360_abs(&self, other_value: f64) -> Self;
 }
 
 /// Implement casting methods for f64
@@ -204,9 +221,16 @@ impl ToRing360 for f64 {
     Ring360(*self).degrees()
   }
 
-  /// Calculate the angle with another 64-bit float in the 0 to 360º system
+  /// Calculate the shortest relative angle with another 64-bit float in the 0 to 360º system
+  /// with negative values indicating an anticlockwise direction
   fn angle_360(&self, other_value: f64) -> f64 {
     Ring360(*self).angle_f64(other_value)
+  }
+
+  /// Calculate the absolute angle with another 64-bit float in the 0 to 360º system
+  /// only in a clockwise direction with the 180º to 359.999º representing half to a full turn
+  fn angle_360_abs(&self, other_value: f64) -> f64 {
+    Ring360(*self).angle_f64_abs(other_value)
   }
 
 }

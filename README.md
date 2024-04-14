@@ -105,9 +105,9 @@ let longitude_1 = value_1.to_360();
 let value_2: f64 = 36.2;
 let longitude_2 = value_2.to_360();
 
-let result_1 = value_1.angle(longitude_2);
+let result_1 = longitude_1.angle(longitude_2);
 
-let result_2 = value_1.angle_f64(value_2);
+let result_2 = longitude_1.angle_f64(value_2);
 
 println!(
   "Both results should be the same: {} == {}",
@@ -115,6 +115,24 @@ println!(
   result_1
 );
 
+```
+
+### Absolute undirectional angles
+The ```angle_abs()``` and ```angle_f64_abs()``` methods calculate the absolute angle in degrees in a clockwise direction between two longitudes in a circle. Values over 180.0 represent more than half a turn. For ```f64``` value you may use ```.angle_360_abs(other_value: f64)```. 
+```rust
+let value_1 = 270.0;
+let longitude_1 = value_1.to_360();
+let value_2: f64 = 30.0;
+let longitude_2 = value_2.to_360();
+
+let result_1 = longitude_1.angle_abs(longitude_2);
+let result_2 = longitude_2.angle_abs(longitude_1);
+
+println!(
+  "The angles may be anywhere in the 0 to 359.9999º range: {} and {}",
+  result_2,
+  result_1
+);
 ```
 
 ### Calculate sine, cosine and tangent directly
@@ -178,12 +196,17 @@ This is implemented only for *f64* with the following methods:
 - *to_360_gis() -> Ring360* converts any 64-bit float representing a degree in the ±180º system and normalises on the 0-360º scale.
 - *mod_360() -> f64* A convenience method for *% 360.0*, but treating negative values as positive degrees in reverse, e.g. *(-20.0).mod_360* equals *340º*
 - *angle_360(other_value: f64) -> f64*: Calculates the shortest angle between two f64 values as degrees around a circle.
+- *angle_360_abs(other_value: f64) -> f64*: Calculates the absolute unidirectional angle between two f64 values as degrees around a circle.
 
 ### Dev Notes
 This is crate is in development, but implements all core features. 
 
 
 ### Version notes
+
+#### 0.2.11
+- *angle_abs() -> f64* Returns the absolute undirectional angle, with related ```angle_f64_abs()``` and ```angle_360_abs()``` methods
+
 #### 0.2.8
 - *progress() -> f64* Returns the rotations as decimal progress around a circle
 
