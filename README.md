@@ -229,3 +229,6 @@ The following deprecated methods were removed from version 0.2.5:
 
 ### 0.2.10
 - the deprecated *Ring360::from_180(-90.0)* constructor and *Ring360.to_180()* method have been removed. Use *Ring360::from_gis(-90.0)* and  *Ring360.to_360_gis()* instead. NB: This does not affect the calculated 360º degree value. It only affects only the calculated number of rotations, where *-30* would convert to 330º with both to_360() and to_360_gis(), but have -1 rotations with the default cast method, but 0 rotations with the f64.to_360_gis().
+
+### 0.2.12
+- Simplified the logic in ring360's ```angle_f64()``` method and added a new static method ```minus_half_turn()``` (-180).

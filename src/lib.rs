@@ -68,6 +68,10 @@ impl Ring360 {
     Self::BASE / 2.0
   }
 
+  pub fn minus_half_turn() -> f64 {
+    0.0 - Self::BASE / 2.0
+  }
+
   /// Return a simple tuple pair with the 
   /// 360º degree value and the number of rotations (turns)
   pub fn as_tuple(&self) -> (f64, i64) {
@@ -90,16 +94,13 @@ impl Ring360 {
   /// and a float64 representing a degree
 	/// A positive value represents clockwise movement between the first and second longitude
   pub fn angle_f64(&self, other_value: f64) -> f64 {
-    let diff = (other_value % Self::BASE) - self.degrees();
-    let alt_val = (Self::BASE + diff) % Self::BASE;
-    
-    if diff.abs() <= Self::half_turn() {
-        diff
-    } else if alt_val < Self::half_turn() {
-        alt_val
-    } else {
-        alt_val - Self::BASE
+    let mut diff = (other_value % Self::BASE) - self.degrees();
+    if diff < Self::minus_half_turn() {
+        diff += Self::BASE;
+    } else if diff > Self::half_turn() {
+        diff -= Self::BASE
     }
+    diff
   }
 
   /// Calculate the absolute angle with another 64-bit float in the 0 to 360º system

@@ -213,4 +213,3 @@ fn test_to_radians() {
     assert_eq!(lng.cos(), radian_val.cos());
     
 }
-
