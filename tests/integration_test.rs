@@ -2,6 +2,7 @@ use ring360::*;
 
 #[cfg(test)]
 
+// Test instantiation, addition and subtraction of Ring360 values
 #[test]
 fn test_operations() {
     let v1 = 271.893635;
@@ -14,9 +15,14 @@ fn test_operations() {
 
     let d4 = d2 - d1;
     let expected_result_f64 = (Ring360::BASE + (v2 - v1)) % Ring360::BASE;
-    assert_eq!(d4.to_f64(), expected_result_f64);
+    assert_eq!(d4.degrees(), expected_result_f64);
 }
 
+// Test division and multiplication of Ring360 values
+// using the multiply() and divide() methods with f64
+// overloaded * and / operators are not implemented
+// because degree can only be logically multiplied or divided
+// by scalar values
 #[test]
 fn test_multiply() {
     let v2 = 134.635893;
@@ -28,16 +34,16 @@ fn test_multiply() {
 
     let d6 = d2.divide(m1);
     let expected_result_f64 = (v2 / m1) % Ring360::BASE;
-    assert_eq!(d6.to_f64(), expected_result_f64);
+    assert_eq!(d6.degrees(), expected_result_f64);
 
     let m2 = 5.0;
     let d7 = d2.multiply(m2);
     let expected_result_f64 = (v2 * m2) % Ring360::BASE;
-    assert_eq!(d7.to_f64(), expected_result_f64);
-
-
+    assert_eq!(d7.degrees(), expected_result_f64);
 }
 
+// Test conversion from f64 to Ring30 values with to_360() 
+// as well tuple representation as degress and rotations
 #[test]
 fn test_conversion() {
     let v1 = 271.893635;
@@ -51,6 +57,8 @@ fn test_conversion() {
     assert_eq!(sum_as_ring_360.as_tuple(), (expected_result_f64, expected_rotations));
 }
 
+
+// Test shortest angles between Ring360 vales either as f64 or as another Ring360 value
 #[test]
 fn test_angles() {
     let v1 = 271.893635;
@@ -85,6 +93,8 @@ fn test_angles() {
     assert_eq!(v3.angle_360(v5), target_val);
 }
 
+// Test absolute angles between Ring360 vales either as f64 or as another Ring360 value
+// in a clockwise direction. Values may range bewteen 0 and 359.99999º
 #[test]
 fn test_absolute_angles() {
     let v1 = 271.5;
@@ -95,30 +105,8 @@ fn test_absolute_angles() {
     assert_eq!(v2.angle_360_abs(v1), v2_to_v1_absolute_angle);
 }
 
-#[test]
-fn test_multiplication() {
-    let v1 = 271.893635;
-    let v2 = 4.0;
-    
-    let d1 = Ring360(v1);
-    
-    let expected_result_f64 = (v1 * v2) % Ring360::BASE;
 
-    // You can only multiply or divide by normal f64 values,
-    // but the resulting Ring360 value will retain the raw f64 as well its degree
-    assert_eq!((d1.multiply(v2)).to_f64(), expected_result_f64);
-
-    let longitude_1 = 297.4.to_360();
-
-    let value_2: f64 = 36.2;
-    let longitude_2 = value_2.to_360();
-
-    let result_1 = longitude_1.angle(longitude_2);
-
-    let result_2 = longitude_1.angle_f64(value_2);
-    assert_eq!(result_1, result_2);
-}
-
+// Test calculation of rotations when the instrinsic is < 0º or >= 360º
 #[test]
 fn test_rotations() {
     let v1 = -82.467352;
@@ -133,6 +121,7 @@ fn test_rotations() {
     assert_eq!(d2.rotations(), expected_rotations_2 );
 }
 
+// Test Ring360 values can be expressed a progress around a circle
 #[test]
 fn test_progress() {
     let v1 = -270.0;
@@ -147,6 +136,7 @@ fn test_progress() {
     assert_eq!(d2.progress(), expected_progress_2 );
 }
 
+// Test degrees longitude expressed with ±180º system are correctly mapped to the 0 - 360º system
 #[test]
 fn test_gis_180_conversions() {
     let v1 = -75.0;
@@ -192,6 +182,8 @@ fn test_from_gis_constructor() {
     assert_eq!(value_with_gis_constructor.rotations(), 0);
 }
 
+// Test any f64 value representing a degree can be converted
+// to its 360º value as an f64
 #[test]
 fn test_mod_360() {
     
@@ -201,6 +193,8 @@ fn test_mod_360() {
     assert_eq!(negative_lng.mod_360(), expected_360_lng);
 }
 
+// Test conversion to radians f64
+// and direct calculation of 
 #[test]
 fn test_to_radians() {
     
