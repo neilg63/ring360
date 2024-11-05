@@ -91,14 +91,14 @@ impl Ring360 {
   }
 
   /// Calculate the shortest distance in degrees between a Ring360 value
-  /// and a float64 representing a degree
+  /// and a 64-bit float representing a degree
 	/// A positive value represents clockwise movement between the first and second longitude
   pub fn angle_f64(&self, other_value: f64) -> f64 {
     let mut diff = (other_value % Self::BASE) - self.degrees();
     if diff < Self::minus_half_turn() {
         diff += Self::BASE;
     } else if diff > Self::half_turn() {
-        diff -= Self::BASE
+        diff -= Self::BASE;
     }
     diff
   }
